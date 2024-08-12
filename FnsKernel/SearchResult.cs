@@ -28,5 +28,6 @@
         /// Адрес компании
         /// </summary>
         public string address { get; set; }
+        public string inn { get; set; }
     }
 }

@@ -66,11 +66,12 @@ namespace FnsKernel
             var client = httpClient ?? httpFactory.CreateClient();
             var response = await client.GetAsync($"https://vbankcenter.ru/contragent/api/web/counterparty/filter?page=0&size=20&searchStr={inn}&withCounter=true");
             SearchInfo info = await response.Content.ReadFromJsonAsync<SearchInfo>();
-            if (info.content.Length != 1)
+            Content? company = info.content.FirstOrDefault(x => x.inn == $"<em>{inn}</em>");
+            if (company == null)
             {
                 throw new ArgumentException("Не найдена компания с данным ИНН");
             }
-            return info.content[0];
+            return company;
         }
     }
 }
